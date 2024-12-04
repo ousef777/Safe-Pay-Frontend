@@ -1,3 +1,4 @@
+import 'package:Frontend/pages/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:Frontend/pages/signin_page.dart';
 import 'package:Frontend/pages/signup_page.dart';
@@ -13,7 +14,8 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
-        ChangeNotifierProvider<RecipesProvider>(create: (_) => RecipesProvider()),
+        ChangeNotifierProvider<RecipesProvider>(
+            create: (_) => RecipesProvider()),
       ],
       child: const MainApp(),
     ),
@@ -43,6 +45,10 @@ class MainApp extends StatelessWidget {
         GoRoute(
           path: '/test',
           builder: (context, state) => const TestPage(),
+        ),
+        GoRoute(
+          path: '/main_page',
+          builder: (context, state) => MainPage(),
         ),
       ],
     );
