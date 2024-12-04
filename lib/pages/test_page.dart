@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:Frontend/pages/card.dart';
 import 'package:Frontend/providers/auth_provider.dart';
-import 'package:Frontend/providers/recipe_provider.dart';
+import 'package:Frontend/providers/card_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -77,7 +76,7 @@ class TestPage extends StatelessWidget {
             ),
             FutureBuilder(
               future:
-                  Provider.of<RecipesProvider>(context, listen: false).getRecipes(),
+                  Provider.of<VCardsProvider>(context, listen: false).getVCards(),
               builder: (context, dataSnapshot) {
                 if (dataSnapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -89,7 +88,7 @@ class TestPage extends StatelessWidget {
                       child: Text('An error occurred'),
                     );
                   } else {
-                    return Consumer<RecipesProvider>(
+                    return Consumer<VCardsProvider>(
                       builder: (context, provider, child) =>
                           GridView.builder(
                               shrinkWrap: true,
@@ -102,9 +101,9 @@ class TestPage extends StatelessWidget {
                               ),
                               physics:
                                   const NeverScrollableScrollPhysics(), // <- Here
-                              itemCount: provider.recipes.length,
+                              itemCount: provider.cards.length,
                               itemBuilder: (context, index) =>
-                                RecipeCard(recipe: provider.recipes[index])),
+                                Text(provider.cards[index].name)),
                     );
                   }
                 }

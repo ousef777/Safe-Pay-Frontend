@@ -4,7 +4,7 @@ import 'package:Frontend/pages/signup_page.dart';
 import 'package:Frontend/pages/test_page.dart';
 import 'package:Frontend/pages/profile_page.dart';
 import 'package:Frontend/providers/auth_provider.dart';
-import 'package:Frontend/providers/recipe_provider.dart';
+import 'package:Frontend/providers/card_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +13,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
-        ChangeNotifierProvider<RecipesProvider>(create: (_) => RecipesProvider()),
+        ChangeNotifierProvider<VCardsProvider>(create: (_) => VCardsProvider()),
       ],
       child: const MainApp(),
     ),

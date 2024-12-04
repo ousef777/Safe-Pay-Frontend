@@ -6,7 +6,7 @@ import 'package:Frontend/services/client.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider extends ChangeNotifier {
-  String? token; //"error", "email", "token"
+  String? token;
   User? user;
 
   Future<Map<String, String>> signup({required String username, required String password}) async {
