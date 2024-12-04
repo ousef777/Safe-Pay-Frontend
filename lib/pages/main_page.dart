@@ -4,49 +4,98 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Main Page ',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: Text(
+            'Main Page ',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
-      ),
-      body: Column(
-        children: [
-          Container(height: 30),
-          // Image.asset(
-          //   'assets/toy_story.jpeg',
-          //   width: 300,
-          //   height: 400,
-          //   fit: BoxFit.contain,
-          // ),
-          Container(
-            alignment: Alignment.centerLeft,
-            padding: EdgeInsets.all(30),
-            child: Text(
-              'Rating: 8/10',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.grey[600],
-                fontSize: 21,
+        body: SingleChildScrollView(
+            // Make the page scrollable
+            child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              // Total Balance Card
+              Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: ListTile(
+                  title: Text(
+                    'Total Balance',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Text(
+                    '\$10,000.00', // Example total balance
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                  ),
+                ),
               ),
-            ),
-          ),
-          Container(
-            alignment: Alignment.centerLeft,
-            padding: EdgeInsets.only(left: 30, right: 30),
-            child: Text(
-              "A cowboy doll is profoundly threatened and jealous when a new spaceman figure supplants him as top toy in a boy's room.",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.grey[700],
-                fontSize: 18,
+              SizedBox(height: 16),
+
+              // Account ****556 Card with Balance
+              Card(
+                elevation: 4,
+                color:
+                    Color(0xFF01A1E4), // Background color for the account card
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: ListTile(
+                  title: Text(
+                    'Account ****556',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  subtitle: Text(
+                    '\$5,000.00', // Display account balance here
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               ),
-            ),
+              SizedBox(height: 16),
+
+              // Visa Account ****345 Card with Balance
+              Card(
+                elevation: 4,
+                color: Color(0xFF016CAC), // Background color for the visa card
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: ListTile(
+                  title: Text(
+                    'Visa Account ****345',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                  subtitle: Text(
+                    '\$2,500.00', // Display visa account balance here
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 16),
+            ],
           ),
-        ],
-      ),
-    );
+        )));
   }
 }
