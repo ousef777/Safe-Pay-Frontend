@@ -4,16 +4,17 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.white, // Sets the background color of the page
         appBar: AppBar(
           title: Text(
             'Main Page ',
             style: TextStyle(
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.bold, // Makes the text bold
             ),
           ),
         ),
         body: SingleChildScrollView(
+            // Makes the body scrollable in case of overflow
             // Make the page scrollable
             child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -31,7 +32,7 @@ class MainPage extends StatelessWidget {
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   subtitle: Text(
-                    '\$10,000.00', // Example total balance
+                    'KD 1000', // Example total balance
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
                   ),
                 ),
@@ -56,7 +57,7 @@ class MainPage extends StatelessWidget {
                     ),
                   ),
                   subtitle: Text(
-                    '\$5,000.00', // Display account balance here
+                    'KD 1000', // Display account balance here
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -84,7 +85,7 @@ class MainPage extends StatelessWidget {
                     ),
                   ),
                   subtitle: Text(
-                    '\$2,500.00', // Display visa account balance here
+                    'KD 2,500', // Display visa account balance here
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
