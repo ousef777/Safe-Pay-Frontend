@@ -161,7 +161,7 @@ class SignUpPage extends StatelessWidget {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(response['error']!)));
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Sign up successfully")));
-                      context.go('/mainscreen');
+                      // context.go('/mainscreen');
                     }
                     // if (provider.token[0].isEmpty) {
                     //   GoRouter.of(context).pop();
