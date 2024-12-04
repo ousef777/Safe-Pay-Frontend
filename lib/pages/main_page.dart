@@ -24,18 +24,67 @@ class MainPage extends StatelessWidget {
               Card(
                 elevation: 4,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10), // Rounded corners
                 ),
-                child: ListTile(
-                  title: Text(
-                    'Total Balance',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                clipBehavior: Clip
+                    .antiAlias, // Ensures the image fits within the card's rounded corners
+
+                child: Container(
+                  width: 350, // Adjust the width to resemble a credit card size
+                  height:
+                      200, // Adjust the height to resemble a credit card size
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(
+                          'assets/Images/card.png'), // Background image
+                      fit: BoxFit
+                          .cover, // Ensures the image covers the entire card
+                    ),
+                    borderRadius: BorderRadius.circular(
+                        10), // Rounded corners for the image
                   ),
-                  subtitle: Text(
-                    'KD 1000', // Example total balance
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ListTile(
+                        title: Text(
+                          'Total Balance',
+                          style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                        subtitle: Text(
+                          'KD 1000', // Example total balance
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+                //  Column(// Added Column here
+                //     children: [
+                //   Image.asset(
+                //     'assets/Images/card.png',
+                //     fit: BoxFit.cover,
+                //   ),
+                //   ListTile(
+                //     title: Text(
+                //       'Total Balance',
+                //       style:
+                //           TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                //     ),
+                //     subtitle: Text(
+                //       'KD 1000', // Example total balance
+                //       style:
+                //           TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                //     ),
+                //   ),
+                // ]),
               ),
               SizedBox(height: 16),
 
