@@ -9,7 +9,7 @@ class AuthProvider extends ChangeNotifier {
   String? token;
   User? user;
 
-  Future<Map<String, String>> signup({required String username, required String password}) async {
+  Future<Map<String, dynamic>> signup({required String username, required String password}) async {
     var response = await AuthServices().signup(user: User(username: username, password: password));
     if (response['token'] != null) {
       _setToken(username, response['token']!);
@@ -19,7 +19,7 @@ class AuthProvider extends ChangeNotifier {
     return response;
   }
 
-  Future<Map<String, String>> signin({required String username, required String password}) async {
+  Future<Map<String, dynamic>> signin({required String username, required String password}) async {
     var response = await AuthServices().signin(user: User(username: username, password: password));
     // this.user = user;
     if (response['token'] != null) {

@@ -7,13 +7,13 @@ class SignUpPage extends StatelessWidget {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
 
   SignUpPage({super.key});
   final _formKey = GlobalKey<FormState>();
   String username = "";
   String password = "";
+  final Color color = Colors.black;//const Color(0xFFB39DDB);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class SignUpPage extends StatelessWidget {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color.fromARGB(255, 112, 173, 99),
+              Color.fromARGB(255, 0, 0, 0),    // 255, 112, 173, 99
               Color.fromARGB(255, 255, 255, 255),
             ],
             stops: [0.0, 1.0],
@@ -73,7 +73,7 @@ class SignUpPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12.0),
                     ),
                     prefixIcon:
-                        const Icon(Icons.person, color: Color(0xFFB39DDB)),
+                        Icon(Icons.person, color: color),
                   ),
                   keyboardType: TextInputType.text,
                   validator: (value) {
@@ -94,7 +94,7 @@ class SignUpPage extends StatelessWidget {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
                     ),
-                    prefixIcon: const Icon(Icons.email, color: Color(0xFFB39DDB)),
+                    prefixIcon: Icon(Icons.email, color: color),
                   ),
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
@@ -112,7 +112,7 @@ class SignUpPage extends StatelessWidget {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
                     ),
-                    prefixIcon: const Icon(Icons.lock, color: Color(0xFFB39DDB)),
+                    prefixIcon: Icon(Icons.lock, color: color),
                   ),
                   obscureText: true,
                   validator: (value) {
@@ -130,7 +130,7 @@ class SignUpPage extends StatelessWidget {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
                     ),
-                    prefixIcon: const Icon(Icons.lock, color: Color(0xFFB39DDB)),
+                    prefixIcon: Icon(Icons.lock, color: color),
                   ),
                   obscureText: true,
                   validator: (value) {
@@ -148,7 +148,7 @@ class SignUpPage extends StatelessWidget {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
-                      backgroundColor: const Color(0xFFB39DDB),
+                      backgroundColor: color,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12.0),
                       ),
@@ -157,8 +157,10 @@ class SignUpPage extends StatelessWidget {
                     if (!_formKey.currentState!.validate()) return;
                     _formKey.currentState!.save();
                     var response = await context.read<AuthProvider>().signup(username: username, password: password);
-                    if (response['error'] != null) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(response['error']!)));
+                    if (response['errors'] != null) {
+                      for (var error in response['errors']) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error['message'])));
+                      }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Sign up successfully")));
                       // context.go('/mainscreen');
@@ -185,9 +187,9 @@ class SignUpPage extends StatelessWidget {
                   onTap: () {
                     context.go('/signin');
                   },
-                  child: const Text(
+                  child: Text(
                     "Already have an account?",
-                    style: TextStyle(color: Color.fromARGB(255, 0, 0, 230), fontSize: 20),
+                    style: TextStyle(color: color, fontSize: 20),   // Color.fromARGB(255, 0, 0, 230)
                   ),
                 ),
               ],
@@ -195,6 +197,25 @@ class SignUpPage extends StatelessWidget {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+
+        },
+        child: const Text("Create Card", textAlign: TextAlign.center,),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 1,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings"),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: "Add"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile")
+        ],
+        // type: BottomNavigationBarType.shifting,
+        onTap: (value) {
+          print(value);
+          if (value == 1) GoRouter.of(context).push('/profile');
+        },
+      )
     );
   }
 }

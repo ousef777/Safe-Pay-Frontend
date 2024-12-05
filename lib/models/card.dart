@@ -2,7 +2,8 @@ class VCard {
   String? id;
   String name;
   double? amount;
-  bool? used;
+  bool used;
+  List? transactions;
 
   VCard(
       {
@@ -10,6 +11,7 @@ class VCard {
         required this.name,
         this.amount,
         this.used = false,
+        this.transactions,
       }
     );
 
@@ -17,5 +19,6 @@ class VCard {
       : id = json['_id'] as String?,
         name = json['name'] as String,
         amount = json['amount'] as double,
-        used = json['used'] as bool;
+        used = json['used'] as bool,
+        transactions = json['transactions'] as List;
 }

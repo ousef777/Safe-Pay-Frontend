@@ -4,26 +4,26 @@ import 'package:Frontend/services/client.dart';
 
 class AuthServices {
 
-  Future<Map<String, String>> signup({required User user}) async {
+  Future<Map<String, dynamic>> signup({required User user}) async {
     try {
-      Response response = await Client.dio.post('/signup', data: user.toJson());
+      Response response = await Client.dio.post('/auth/signup', data: user.toJson());
       return {'token': response.data["token"]};
     } on DioException catch (error) {
-      print(error.response!.data["error"]["message"]);
-      return {'error': error.response!.data["error"]["message"]};
+      print(error.response!.data);
+      return {'errors': error.response!.data["errors"]};
     }
   }
 
-  Future<Map<String, String>> signin({required User user}) async {
+  Future<Map<String, dynamic>> signin({required User user}) async {
     try {
       // print(user.toJson());
       Response response =
-          await Client.dio.post('/signin', data: user.toJson());
+          await Client.dio.post('/auth/signin', data: user.toJson());
       return {'token': response.data["token"]};
       // print(token);
     } on DioException catch (error) {
-      print(error.response!);
-      return {'error': error.response!.data["error"]["message"]};
+      print(error.response!.data);
+      return {'errors': error.response!.data["errors"]};
     }
   }
 }

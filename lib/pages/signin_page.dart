@@ -11,6 +11,7 @@ class SignInPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
   String username = "";
   String password = "";
+  final Color color = Colors.black;//const Color(0xFFB39DDB);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class SignInPage extends StatelessWidget {
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color.fromARGB(255, 112, 173, 99),
+              Color.fromARGB(255, 0, 0, 0),
               Color.fromARGB(255, 255, 255, 255),
             ],
             stops: [0.0, 1.0],
@@ -46,7 +47,7 @@ class SignInPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Icon(
-                  Icons.supervised_user_circle,
+                  Icons.person,
                   size: 100,
                   color: Colors.white,
                 ),
@@ -71,7 +72,7 @@ class SignInPage extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12.0),
                     ),
                     prefixIcon:
-                        const Icon(Icons.person, color: Color(0xFFB39DDB)),
+                       Icon(Icons.person, color: color),
                   ),
                   keyboardType: TextInputType.text,
                   validator: (value) {
@@ -92,7 +93,7 @@ class SignInPage extends StatelessWidget {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
                     ),
-                    prefixIcon: const Icon(Icons.lock, color: Color(0xFFB39DDB)),
+                    prefixIcon: Icon(Icons.lock, color: color),
                   ),
                   obscureText: true,
                   validator: (value) {
@@ -109,7 +110,7 @@ class SignInPage extends StatelessWidget {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
-                      backgroundColor: const Color(0xFFB39DDB),
+                      backgroundColor: color,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12.0),
                       ),
@@ -120,8 +121,10 @@ class SignInPage extends StatelessWidget {
                       _formKey.currentState!.save();
                       var response = await context.read<AuthProvider>().signin(username: username, password: password);
                       print(response);
-                      if (response['error'] != null) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(response['error']!)));
+                      if (response['errors'] != null) {
+                        for (var error in response['errors']) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error['message'])));
+                      }
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Sign in successfully")));
                         // GoRouter.of(context).go('/mainscreen');
@@ -145,9 +148,9 @@ class SignInPage extends StatelessWidget {
                       onTap: () {
                         context.go('/signup');
                       },
-                      child: const Text(
+                      child: Text(
                         "Don't have an account? ",
-                        style: TextStyle(color: Color.fromARGB(255, 0, 0, 230), fontSize: 20),
+                        style: TextStyle(color: color, fontSize: 20),
                       ),
                     ),
                     // GestureDetector(

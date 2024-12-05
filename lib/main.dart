@@ -44,6 +44,10 @@ class MainApp extends StatelessWidget {
           path: '/test',
           builder: (context, state) => const TestPage(),
         ),
+        GoRoute(
+          path: '/profile',
+          builder: (context, state) => const ProfilePage(),
+        ),
       ],
     );
 

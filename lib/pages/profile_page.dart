@@ -60,7 +60,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     const SizedBox(height: 16),
                     const Text(
-                      'Hello, Chef',
+                      'Hello',
                       style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
