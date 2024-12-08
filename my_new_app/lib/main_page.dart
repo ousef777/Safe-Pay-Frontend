@@ -2260,44 +2260,44 @@ class _MainPageState extends State<MainPage>
                                             CrossAxisAlignment.start,
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            'Name: ${cards[index]['cardHolderName']}',
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          Text(
-                                            'Amount: ${cards[index]['amount']}',
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          Text(
-                                            'Type: ${cards[index]['type']}',
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          Text(
-                                            'Withdrawal Limit: ${cards[index]['withdrawalLimit']}',
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                          Text(
-                                            'Expiry Date: ${cards[index]['expiryDate'].toLocal()}'
-                                                .split(' ')[0],
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.black,
-                                            ),
-                                          ),
-                                        ],
+                                        // children: [
+                                        //   Text(
+                                        //     'Name: ${cards[index]['cardHolderName']}',
+                                        //     style: TextStyle(
+                                        //       fontSize: 18,
+                                        //       color: Colors.black,
+                                        //     ),
+                                        //   ),
+                                        //   Text(
+                                        //     'Amount: ${cards[index]['amount']}',
+                                        //     style: TextStyle(
+                                        //       fontSize: 18,
+                                        //       color: Colors.black,
+                                        //     ),
+                                        //   ),
+                                        //   Text(
+                                        //     'Type: ${cards[index]['type']}',
+                                        //     style: TextStyle(
+                                        //       fontSize: 18,
+                                        //       color: Colors.black,
+                                        //     ),
+                                        //   ),
+                                        //   Text(
+                                        //     'Withdrawal Limit: ${cards[index]['withdrawalLimit']}',
+                                        //     style: TextStyle(
+                                        //       fontSize: 18,
+                                        //       color: Colors.black,
+                                        //     ),
+                                        //   ),
+                                        //   Text(
+                                        //     'Expiry Date: ${cards[index]['expiryDate'].toLocal()}'
+                                        //         .split(' ')[0],
+                                        //     style: TextStyle(
+                                        //       fontSize: 18,
+                                        //       color: Colors.black,
+                                        //     ),
+                                        //   ),
+                                        // ],
                                       ),
                                     ),
                                     Positioned(
