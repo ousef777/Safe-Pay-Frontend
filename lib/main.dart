@@ -26,7 +26,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GoRouter router = GoRouter(
-      initialLocation: '/signup', // Main page
+      initialLocation: '/test', // Main page
       routes: [
         GoRoute(
           path: '/signin',

@@ -185,7 +185,7 @@ class SignUpPage extends StatelessWidget {
                 const SizedBox(height: 20),
                 GestureDetector(
                   onTap: () {
-                    context.go('/signin');
+                    context.push('/signin');
                   },
                   child: Text(
                     "Already have an account?",
@@ -213,7 +213,7 @@ class SignUpPage extends StatelessWidget {
         // type: BottomNavigationBarType.shifting,
         onTap: (value) {
           print(value);
-          if (value == 1) GoRouter.of(context).push('/profile');
+          if (value == 2) GoRouter.of(context).push('/profile');
         },
       )
     );

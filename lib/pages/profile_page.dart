@@ -1,4 +1,7 @@
+import 'package:Frontend/main.dart';
+import 'package:Frontend/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -23,18 +26,24 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    var user = context.read<AuthProvider>().user;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Profile'),
-        backgroundColor: const Color.fromARGB(255, 112, 173, 99),
-        centerTitle: true,
+        title: const Text(
+          'Profile',
+          style: TextStyle(color: Colors.white),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
+      extendBodyBehindAppBar: true,
       body: Container(
         // Gradient background
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Color.fromARGB(255, 112, 173, 99),
+              Color.fromARGB(255, 0, 0, 0),
               Color.fromARGB(255, 255, 255, 255),
             ],
             begin: Alignment.topCenter,
@@ -50,19 +59,24 @@ class _ProfilePageState extends State<ProfilePage> {
               Center(
                 child: Column(
                   children: [
-                    ClipOval(
-                      child: Image.asset(
-                        'assets/Images/pfp.jpg',
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.cover,
-                      ),
+                    // ClipOval(
+                    //   child: Image.asset(
+                    //     'assets/Images/pfp.jpg',
+                    //     width: 100,
+                    //     height: 100,
+                    //     fit: BoxFit.cover,
+                    //   ),
+                    // ),
+                    const SizedBox(height: 100),
+                    const Icon(
+                      Icons.person_pin_circle, 
+                      size: 100,
                     ),
                     const SizedBox(height: 16),
-                    const Text(
-                      'Hello',
+                    Text(
+                      'Hello ${(user != null) ? user.username : "Guest"}',
                       style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                          const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                   ],
                 ),
@@ -146,8 +160,8 @@ class _ProfilePageState extends State<ProfilePage> {
         onPressed: () {
           _showAddRecipeDialog(context);
         },
+        backgroundColor: const Color.fromARGB(255, 112, 173, 99),  
         child: const Icon(Icons.add),
-        backgroundColor: const Color.fromARGB(255, 112, 173, 99),
       ),
     );
   }

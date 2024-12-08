@@ -11,9 +11,10 @@ class TestPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Recipes"),
+        title: const Text("VCards"),
       ),
       drawer: Drawer(
+        backgroundColor: Colors.grey,
         child: FutureBuilder(
           future: context.read<AuthProvider>().initAuth(),
           builder: (context, snapshot) {
@@ -70,7 +71,7 @@ class TestPage extends StatelessWidget {
                 },
                 child: const Padding(
                   padding: EdgeInsets.all(12.0),
-                  child: Text("Add a new Recipe"),
+                  child: Text("Add a new VCard"),
                 ),
               ),
             ),
@@ -84,6 +85,7 @@ class TestPage extends StatelessWidget {
                   );
                 } else {
                   if (dataSnapshot.error != null) {
+                    print(dataSnapshot.error);
                     return const Center(
                       child: Text('An error occurred'),
                     );
@@ -103,7 +105,11 @@ class TestPage extends StatelessWidget {
                                   const NeverScrollableScrollPhysics(), // <- Here
                               itemCount: provider.cards.length,
                               itemBuilder: (context, index) =>
-                                Text(provider.cards[index].name)),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(provider.cards[index].name),
+                                )
+                              ),
                     );
                   }
                 }
@@ -112,6 +118,19 @@ class TestPage extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 1,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings"),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: "Add"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile")
+        ],
+        // type: BottomNavigationBarType.shifting,
+        onTap: (value) {
+          print(value);
+          if (value == 2) GoRouter.of(context).push('/profile');
+        },
+      )
     );
   }
 }
