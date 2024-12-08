@@ -374,7 +374,7 @@ class _CreateCardPageState extends State<CreateCardPage> {
                           activeColor: goldColor,
                         ),
                         Text(
-                          'Valid for 24 hours',
+                          'Valid for 24 hours (comming soon)',
                           style: TextStyle(color: goldColor),
                         ),
                       ],
