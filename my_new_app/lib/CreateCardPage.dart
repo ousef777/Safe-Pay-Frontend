@@ -57,7 +57,7 @@ class _CreateCardPageState extends State<CreateCardPage> {
                   style: TextStyle(
                       color: goldColor), // Ensures the entered text is gold
                   decoration: InputDecoration(
-                    labelText: 'Name of Person',
+                    labelText: 'Name of Card',
                     labelStyle: TextStyle(color: goldColor),
                     hintText: 'Enter the name',
                     hintStyle: TextStyle(
