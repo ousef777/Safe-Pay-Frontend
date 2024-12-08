@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_new_app/CardHistoryPage.dart';
+import 'package:my_new_app/CreateCardPage.dart';
+import 'package:my_new_app/DetailsPage.dart';
+// import 'package:my_new_app/HistoryPage.dart';
 // import 'package:my_new_app/SplashScreen.dart';
 import 'package:my_new_app/signin_page.dart';
 import 'package:my_new_app/signup_page.dart';
@@ -39,6 +43,23 @@ class MyApp extends StatelessWidget {
         GoRoute(
           path: '/SignUpPage',
           builder: (context, state) => SignUpPage(),
+        ),
+        GoRoute(
+          path: '/create-card',
+          builder: (context, state) => const CreateCardPage(),
+        ),
+        GoRoute(
+          path: '/details',
+          builder: (context, state) {
+            final cardDetails = state.extra as Map<String, dynamic>;
+            return DetailsPage(cardDetails: cardDetails);
+          },
+        ),
+        GoRoute(
+          path: '/history',
+          builder: (context, state) => const HistoryPage(
+            cards: [],
+          ),
         ),
       ],
     );
