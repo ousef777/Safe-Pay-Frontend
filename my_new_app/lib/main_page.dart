@@ -944,10 +944,10 @@ class _MainPageState extends State<MainPage>
                                     .transparent, // Set the container background to transparent
                                 image: DecorationImage(
                                   image: AssetImage(
-                                      'assets/Images/card.png'), // Replace with your custom card image path
+                                      'assets/Images/card-2.png'), // Replace with your custom card image path
                                   fit: BoxFit.cover,
                                 ),
-                                borderRadius: BorderRadius.circular(10),
+                                // borderRadius: BorderRadius.circular(16),
                               ),
                               child: Stack(
                                 children: [
@@ -963,34 +963,34 @@ class _MainPageState extends State<MainPage>
                                           'Name: ${cards[index]['cardHolderName']}',
                                           style: TextStyle(
                                               fontSize: 18,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.white),
+                                              // fontWeight: FontWeight.bold,
+                                              color: Colors.black),
                                         ),
                                         Text(
                                           'Amount: ${cards[index]['amount']}',
                                           style: TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.white),
+                                              fontSize: 18,
+                                              color: Colors.black),
                                         ),
                                         Text(
                                           'Type: ${cards[index]['type']}',
                                           style: TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.white),
+                                              fontSize: 18,
+                                              color: Colors.black),
                                         ),
                                         Text(
                                           'Withdrawal Limit: ${cards[index]['withdrawalLimit']}',
                                           style: TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.white),
+                                              fontSize: 18,
+                                              color: Colors.black),
                                         ),
                                         Text(
                                           'Expiry Date: ${cards[index]['expiryDate'].toLocal()}'
                                               .split(
                                                   ' ')[0], // Show expiry date
                                           style: TextStyle(
-                                              fontSize: 16,
-                                              color: Colors.white),
+                                              fontSize: 18,
+                                              color: Colors.black),
                                         ),
                                       ],
                                     ),
@@ -1010,7 +1010,7 @@ class _MainPageState extends State<MainPage>
                                             ? '4152 5468 9012 3456'
                                             : 'Show Number',
                                         style: TextStyle(
-                                            fontSize: 18, color: Colors.white),
+                                            fontSize: 18, color: Colors.black),
                                       ),
                                     ),
                                   ),
