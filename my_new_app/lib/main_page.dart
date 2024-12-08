@@ -2050,9 +2050,6 @@ import 'package:go_router/go_router.dart';
 import 'package:my_new_app/CardDetailsPage.dart';
 import 'package:my_new_app/CardHistoryPage.dart';
 import 'package:my_new_app/CreateCardPage.dart';
-// import 'create_card_page.dart'; // Import the CreateCardPage
-// import 'card_details_page.dart'; // Import the CardDetailsPage
-// import 'card_history_page.dart'; // Import the CardHistoryPage
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -2301,7 +2298,7 @@ class _MainPageState extends State<MainPage>
                                       ),
                                     ),
                                     Positioned(
-                                      right: 16.0,
+                                      left: 32.0,
                                       bottom: 16.0,
                                       child: GestureDetector(
                                         onTap: () {
