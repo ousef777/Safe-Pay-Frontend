@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class TestPage extends StatelessWidget {
-  const TestPage({Key? key}) : super(key: key);
+  const TestPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +14,7 @@ class TestPage extends StatelessWidget {
         title: const Text("VCards"),
       ),
       drawer: Drawer(
-        backgroundColor: Colors.grey,
+        // backgroundColor: Colors.grey,
         child: FutureBuilder(
           future: context.read<AuthProvider>().initAuth(),
           builder: (context, snapshot) {
@@ -24,12 +24,13 @@ class TestPage extends StatelessWidget {
                 ListView(
                   padding: EdgeInsets.zero,
                   children: [
-                    const Text("Welcome user"),
+                    Text("Welcome ${provider.user!.username}"),
                     ListTile(
                       title: const Text("Log out"),
                       trailing: const Icon(Icons.how_to_reg),
                       onTap: () {
                         provider.logout();
+                        context.pushReplacement('/test');
                       },
                     )
                   ],
@@ -42,14 +43,14 @@ class TestPage extends StatelessWidget {
                       title: const Text("Signin"),
                       trailing: const Icon(Icons.login),
                       onTap: () {
-                        GoRouter.of(context).push('/signin');
+                        GoRouter.of(context).go('/signin');
                       },
                     ),
                     ListTile(
                       title: const Text("Signup"),
                       trailing: const Icon(Icons.how_to_reg),
                       onTap: () {
-                        GoRouter.of(context).push('/signup');
+                        GoRouter.of(context).go('/signup');
                       },
                     )
                   ],
@@ -85,9 +86,8 @@ class TestPage extends StatelessWidget {
                   );
                 } else {
                   if (dataSnapshot.error != null) {
-                    print(dataSnapshot.error);
-                    return const Center(
-                      child: Text('An error occurred'),
+                    return Center(
+                      child: Text(dataSnapshot.error.toString()),
                     );
                   } else {
                     return Consumer<VCardsProvider>(
@@ -107,7 +107,16 @@ class TestPage extends StatelessWidget {
                               itemBuilder: (context, index) =>
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text(provider.cards[index].name),
+                                  child: Card(
+                                    child: Column(
+                                      children: [
+                                        Text(provider.cards[index].name),
+                                        Text(provider.cards[index].cardNumber.toString()),
+                                        Text(provider.cards[index].expiryDate),
+                                        Text(provider.cards[index].cvv.toString()),
+                                      ],
+                                    ),
+                                  ),
                                 )
                               ),
                     );

@@ -127,7 +127,7 @@ class SignInPage extends StatelessWidget {
                       }
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Sign in successfully")));
-                        // GoRouter.of(context).go('/mainscreen');
+                        GoRouter.of(context).go('/test');
                       }
                     },
                     child: const Text(

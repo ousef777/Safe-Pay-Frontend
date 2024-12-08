@@ -6,14 +6,19 @@ class DioClient {
 
   Future<List<VCard>> getVCards() async {
     List<VCard> cards = [];
+
     try {
       Response response = await Client.dio.get('/cards');
-      // print((response.data as List));
+      print((response.data as List));
       cards = (response.data as List).map((card) {
         return VCard.fromJson(card);
       }).toList();
     } on DioException catch (error) {
-      print(error);
+      print(error.type);
+      if (error.response?.statusCode == 404 || error.type == DioExceptionType.connectionError) {
+        throw("No Connection");
+      }
+      throw(error.response?.data['errors'][0]["message"]);
     }
     return cards;
   }
@@ -23,7 +28,7 @@ class DioClient {
     try {
       FormData data = FormData.fromMap({
         "name": card.name,
-        "amount": card.amount,
+        // "amount": card.amount,
       });
       Response response = await Client.dio.post('/cards', data: data);
       retrievedVCard = VCard.fromJson(response.data);
@@ -38,7 +43,7 @@ class DioClient {
     try {
       FormData data = FormData.fromMap({
         "name": card.name,
-        "amount": card.amount,
+        // "amount": card.amount,
       });
 
       Response response =
@@ -50,7 +55,7 @@ class DioClient {
     return retrievedVCard;
   }
 
-  Future<void> deleteVCard({required int cardId}) async {
+  Future<void> deleteVCard({required String cardId}) async {
     try {
       await Client.dio.delete('/cards/$cardId');
     } on DioException catch (error) {

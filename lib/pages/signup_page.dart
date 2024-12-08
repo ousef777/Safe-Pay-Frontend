@@ -163,7 +163,7 @@ class SignUpPage extends StatelessWidget {
                       }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Sign up successfully")));
-                      // context.go('/mainscreen');
+                      context.go('/test');
                     }
                     // if (provider.token[0].isEmpty) {
                     //   GoRouter.of(context).pop();
@@ -203,19 +203,6 @@ class SignUpPage extends StatelessWidget {
         },
         child: const Text("Create Card", textAlign: TextAlign.center,),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 1,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings"),
-          BottomNavigationBarItem(icon: Icon(Icons.add), label: "Add"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile")
-        ],
-        // type: BottomNavigationBarType.shifting,
-        onTap: (value) {
-          print(value);
-          if (value == 2) GoRouter.of(context).push('/profile');
-        },
-      )
     );
   }
 }
