@@ -1,14 +1,34 @@
-import 'package:Frontend/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Sign In Page',
+      theme: ThemeData.dark(), // Apply a dark theme
+      home: SignInPage(), // Set SignInPage as the home page
+    );
+  }
+}
 
 class SignInPage extends StatelessWidget {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
   SignInPage({super.key});
+
   final _formKey = GlobalKey<FormState>();
+
+  // Define the gold color as a variable
+  final Color goldColor = const Color(0xFFE9C575);
   String username = "";
   String password = "";
   final Color color = Colors.black;//const Color(0xFFB39DDB);
@@ -17,27 +37,16 @@ class SignInPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           'Sign In',
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: goldColor),
         ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.black,
         elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme: IconThemeData(color: goldColor),
       ),
-      extendBodyBehindAppBar: true,
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color.fromARGB(255, 0, 0, 0),
-              Color.fromARGB(255, 255, 255, 255),
-            ],
-            stops: [0.0, 1.0],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
+        color: Colors.black,
         child: Form(
           key: _formKey,
           child: Padding(
@@ -46,10 +55,10 @@ class SignInPage extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(
-                  Icons.person,
+                Icon(
+                  Icons.supervised_user_circle,
                   size: 100,
-                  color: Colors.white,
+                  color: goldColor,
                 ),
                 const SizedBox(height: 20),
                 Text(
@@ -64,44 +73,49 @@ class SignInPage extends StatelessWidget {
                 const SizedBox(height: 40),
                 TextFormField(
                   controller: usernameController,
+                  style: TextStyle(
+                      color: goldColor), // Ensures the entered text is gold
                   decoration: InputDecoration(
                     labelText: 'Username',
+                    labelStyle: TextStyle(color: goldColor),
+                    hintText: 'Enter your username',
+                    hintStyle: TextStyle(
+                        color: goldColor), // Ensures the hint text is gold
                     filled: true,
-                    fillColor: Colors.white.withOpacity(0.9),
+                    fillColor: Colors.white.withOpacity(0.1),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
                     ),
-                    prefixIcon:
-                       Icon(Icons.person, color: color),
+                    prefixIcon: Icon(Icons.person, color: goldColor),
                   ),
                   keyboardType: TextInputType.text,
                   validator: (value) {
-                    if (value!.isEmpty) return "fill the blank";
+                    if (value!.isEmpty) return "Please fill in your username";
                     return null;
-                  },
-                  onSaved: (newValue) {
-                    username = newValue!;
                   },
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
                   controller: passwordController,
+                  style: TextStyle(
+                      color: goldColor), // Ensures the entered text is gold
                   decoration: InputDecoration(
                     labelText: 'Password',
+                    labelStyle: TextStyle(color: goldColor),
+                    hintText: 'Enter your password',
+                    hintStyle: TextStyle(
+                        color: goldColor), // Ensures the hint text is gold
                     filled: true,
-                    fillColor: Colors.white.withOpacity(0.9),
+                    fillColor: Colors.white.withOpacity(0.1),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
                     ),
-                    prefixIcon: Icon(Icons.lock, color: color),
+                    prefixIcon: Icon(Icons.lock, color: goldColor),
                   ),
                   obscureText: true,
                   validator: (value) {
-                    if (value!.isEmpty) return "fill the blank";
+                    if (value!.isEmpty) return "Please fill in your password";
                     return null;
-                  },
-                  onSaved: (newValue) {
-                    password = newValue!;
                   },
                 ),
                 const SizedBox(height: 30),
@@ -110,7 +124,7 @@ class SignInPage extends StatelessWidget {
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(vertical: 16),
-                      backgroundColor: color,
+                      backgroundColor: goldColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12.0),
                       ),
@@ -135,37 +149,21 @@ class SignInPage extends StatelessWidget {
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: Colors.black,
                       ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        context.go('/signup');
-                      },
-                      child: Text(
-                        "Don't have an account? ",
-                        style: TextStyle(color: color, fontSize: 20),
-                      ),
-                    ),
-                    // GestureDetector(
-                    //   onTap: () {
-                    //     context.go('/signup');
-                    //   },
-                    //   child: const Text(
-                    //     'Sign in',
-                    //     style: TextStyle(
-                    //       color: Color.fromARGB(255, 0, 102, 255),
-                    //       fontWeight: FontWeight.bold,
-                    //     ),
-                    //   ),
-                    // ),
-                  ],
+                GestureDetector(
+                  onTap: () {
+                    context.go(
+                        '/SignUpPage'); // Navigate to SignUpPage using GoRouter
+                  },
+                  child: Text(
+                    "Don't have an account?",
+                    style: TextStyle(color: goldColor, fontSize: 20),
+                  ),
                 ),
               ],
             ),
