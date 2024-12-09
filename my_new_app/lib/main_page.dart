@@ -2354,6 +2354,7 @@
 //     );
 //   }
 // }
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_new_app/CardDetailsPage.dart';
@@ -2442,7 +2443,7 @@ class _MainPageState extends State<MainPage>
       backgroundColor: backgroundColor,
       appBar: AppBar(
         title: const Text(
-          'Main Page',
+          'Home Page',
           style: TextStyle(color: goldColor),
         ),
         backgroundColor: backgroundColor,
