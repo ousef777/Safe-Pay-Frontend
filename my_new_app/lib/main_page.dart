@@ -2124,10 +2124,7 @@ class _MainPageState extends State<MainPage>
   }
 
   void _navigateToDetailsPage(Map<String, dynamic> card) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => CardDetailsPage(card: card)),
-    );
+    GoRouter.of(context).go('/mainpage');
   }
 
   @override

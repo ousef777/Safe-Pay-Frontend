@@ -105,9 +105,7 @@ import 'package:go_router/go_router.dart';
 class CardDetailsPage extends StatelessWidget {
   final Map<String, dynamic> card;
 
-  const CardDetailsPage(
-      {Key? key, required this.card, required Map<String, dynamic> cardDetails})
-      : super(key: key);
+  const CardDetailsPage({Key? key, required this.card}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +122,7 @@ class CardDetailsPage extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.home, color: goldColor),
             onPressed: () {
-              context.go('/MainPage');
+              context.push('/MainPage');
             },
           ),
         ],

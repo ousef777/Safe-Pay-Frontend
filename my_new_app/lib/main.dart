@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_new_app/CardDetailsPage.dart';
 import 'package:my_new_app/CardHistoryPage.dart';
 import 'package:my_new_app/CreateCardPage.dart';
 import 'package:my_new_app/DetailsPage.dart';
@@ -51,8 +52,8 @@ class MyApp extends StatelessWidget {
         GoRoute(
           path: '/details',
           builder: (context, state) {
-            final cardDetails = state.extra as Map<String, dynamic>;
-            return DetailsPage(cardDetails: cardDetails);
+            final card = state.extra as Map<String, dynamic>;
+            return CardDetailsPage(card: card);
           },
         ),
         GoRoute(

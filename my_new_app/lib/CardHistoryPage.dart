@@ -51,6 +51,7 @@
 //   }
 // }
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_new_app/CardDetailsPage.dart';
 // import 'card_details_page.dart'; // Import the CardDetailsPage
 
@@ -80,12 +81,7 @@ class HistoryPage extends StatelessWidget {
             subtitle: Text('Amount: ${cards[index]['amount']}',
                 style: TextStyle(color: goldColor)),
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CardDetailsPage(card: cards[index]),
-                ),
-              );
+              GoRouter.of(context).push('/details', extra: cards[index]);
             },
           );
         },
