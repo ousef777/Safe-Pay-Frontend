@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:Frontend/pages/card.dart';
 import 'package:Frontend/providers/auth_provider.dart';
-import 'package:Frontend/providers/recipe_provider.dart';
+import 'package:Frontend/providers/card_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class TestPage extends StatelessWidget {
-  const TestPage({Key? key}) : super(key: key);
+  const TestPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Recipes"),
+        title: const Text("VCards"),
       ),
       drawer: Drawer(
+        // backgroundColor: Colors.grey,
         child: FutureBuilder(
           future: context.read<AuthProvider>().initAuth(),
           builder: (context, snapshot) {
@@ -24,12 +24,13 @@ class TestPage extends StatelessWidget {
                 ListView(
                   padding: EdgeInsets.zero,
                   children: [
-                    const Text("Welcome user"),
+                    Text("Welcome ${provider.user!.username}"),
                     ListTile(
                       title: const Text("Log out"),
                       trailing: const Icon(Icons.how_to_reg),
                       onTap: () {
                         provider.logout();
+                        context.pushReplacement('/test');
                       },
                     )
                   ],
@@ -42,14 +43,14 @@ class TestPage extends StatelessWidget {
                       title: const Text("Signin"),
                       trailing: const Icon(Icons.login),
                       onTap: () {
-                        GoRouter.of(context).push('/signin');
+                        GoRouter.of(context).go('/signin');
                       },
                     ),
                     ListTile(
                       title: const Text("Signup"),
                       trailing: const Icon(Icons.how_to_reg),
                       onTap: () {
-                        GoRouter.of(context).push('/signup');
+                        GoRouter.of(context).go('/signup');
                       },
                     )
                   ],
@@ -71,13 +72,13 @@ class TestPage extends StatelessWidget {
                 },
                 child: const Padding(
                   padding: EdgeInsets.all(12.0),
-                  child: Text("Add a new Recipe"),
+                  child: Text("Add a new VCard"),
                 ),
               ),
             ),
             FutureBuilder(
               future:
-                  Provider.of<RecipesProvider>(context, listen: false).getRecipes(),
+                  Provider.of<VCardsProvider>(context, listen: false).getVCards(),
               builder: (context, dataSnapshot) {
                 if (dataSnapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -85,11 +86,11 @@ class TestPage extends StatelessWidget {
                   );
                 } else {
                   if (dataSnapshot.error != null) {
-                    return const Center(
-                      child: Text('An error occurred'),
+                    return Center(
+                      child: Text(dataSnapshot.error.toString()),
                     );
                   } else {
-                    return Consumer<RecipesProvider>(
+                    return Consumer<VCardsProvider>(
                       builder: (context, provider, child) =>
                           GridView.builder(
                               shrinkWrap: true,
@@ -102,9 +103,22 @@ class TestPage extends StatelessWidget {
                               ),
                               physics:
                                   const NeverScrollableScrollPhysics(), // <- Here
-                              itemCount: provider.recipes.length,
+                              itemCount: provider.cards.length,
                               itemBuilder: (context, index) =>
-                                RecipeCard(recipe: provider.recipes[index])),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Card(
+                                    child: Column(
+                                      children: [
+                                        Text(provider.cards[index].name),
+                                        Text(provider.cards[index].cardNumber.toString()),
+                                        Text(provider.cards[index].expiryDate),
+                                        Text(provider.cards[index].cvv.toString()),
+                                      ],
+                                    ),
+                                  ),
+                                )
+                              ),
                     );
                   }
                 }
@@ -113,6 +127,19 @@ class TestPage extends StatelessWidget {
           ],
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 1,
+        items: const [
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings"),
+          BottomNavigationBarItem(icon: Icon(Icons.add), label: "Add"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile")
+        ],
+        // type: BottomNavigationBarType.shifting,
+        onTap: (value) {
+          print(value);
+          if (value == 2) GoRouter.of(context).push('/profile');
+        },
+      )
     );
   }
 }
