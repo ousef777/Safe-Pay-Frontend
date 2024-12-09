@@ -19,8 +19,8 @@ class VCardsProvider extends ChangeNotifier {
   }
 
   void createVCard(VCard card) async {
-    VCard newVVVCard = await DioClient().createVCard(card: card);
-    cards.insert(0, newVVVCard);
+    VCard newVCard = await DioClient().createVCard(card: card);
+    cards.insert(0, newVCard);
     notifyListeners();
   }
 
@@ -36,10 +36,4 @@ class VCardsProvider extends ChangeNotifier {
     cards.removeWhere((card) => card.id == cardId);
     notifyListeners();
   }
-}
-
-void main() {
-  VCardsProvider provider = VCardsProvider();
-  provider.getVCards();
-  print(provider.cards);
 }

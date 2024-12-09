@@ -19,7 +19,7 @@ class AuthServices {
       // print(user.toJson());
       Response response =
           await Client.dio.post('/auth/signin', data: user.toJson());
-      return {'token': response.data["token"]};
+      return {'token': response.data["token"], 'balance': response.data["balance"]};
       // print(token);
     } on DioException catch (error) {
       print(error.response!.data);

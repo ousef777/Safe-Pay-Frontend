@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AuthProvider extends ChangeNotifier {
   String? token;
   User? user;
+  double? balance;
 
   Future<Map<String, dynamic>> signup({required String username, required String password}) async {
     var response = await AuthServices().signup(user: User(username: username, password: password));
@@ -21,7 +22,7 @@ class AuthProvider extends ChangeNotifier {
 
   Future<Map<String, dynamic>> signin({required String username, required String password}) async {
     var response = await AuthServices().signin(user: User(username: username, password: password));
-    // this.user = user;
+    balance = response['balance'];
     if (response['token'] != null) {
       _setToken(username, response['token']!);
     }

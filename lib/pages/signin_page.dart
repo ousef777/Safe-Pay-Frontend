@@ -1,5 +1,7 @@
+import 'package:Frontend/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(MyApp());
@@ -93,6 +95,9 @@ class SignInPage extends StatelessWidget {
                     if (value!.isEmpty) return "Please fill in your username";
                     return null;
                   },
+                  onSaved: (newValue) {
+                    username = newValue!;
+                  },
                 ),
                 const SizedBox(height: 20),
                 TextFormField(
@@ -116,6 +121,9 @@ class SignInPage extends StatelessWidget {
                   validator: (value) {
                     if (value!.isEmpty) return "Please fill in your password";
                     return null;
+                  },
+                  onSaved: (newValue) {
+                    password = newValue!;
                   },
                 ),
                 const SizedBox(height: 30),
@@ -141,7 +149,7 @@ class SignInPage extends StatelessWidget {
                       }
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Sign in successfully")));
-                        GoRouter.of(context).go('/test');
+                        GoRouter.of(context).go('/MainPage');
                       }
                     },
                     child: const Text(

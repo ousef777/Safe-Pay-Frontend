@@ -1,5 +1,7 @@
+import 'package:Frontend/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class SignUpPage extends StatelessWidget {
   final TextEditingController usernameController = TextEditingController();
@@ -13,7 +15,6 @@ class SignUpPage extends StatelessWidget {
   final Color goldColor = const Color(0xFFE9C575); // Gold color for styling
   String username = "";
   String password = "";
-  final Color color = Colors.black;//const Color(0xFFB39DDB);
 
   @override
   Widget build(BuildContext context) {
@@ -74,6 +75,9 @@ class SignUpPage extends StatelessWidget {
                   validator: (value) {
                     if (value!.isEmpty) return "Please fill in your username";
                     return null;
+                  },
+                  onSaved: (newValue) {
+                    username = newValue!;
                   },
                 ),
                 const SizedBox(height: 20),
@@ -145,9 +149,13 @@ class SignUpPage extends StatelessWidget {
                   obscureText: true,
                   validator: (value) {
                     if (value!.isEmpty) return "Please confirm your password";
-                    if (value != passwordController.text)
+                    if (value != passwordController.text) {
                       return "Passwords do not match";
+                    }
                     return null;
+                  },
+                  onSaved: (newValue) {
+                    password = newValue!;
                   },
                 ),
                 const SizedBox(height: 30),
@@ -171,7 +179,7 @@ class SignUpPage extends StatelessWidget {
                       }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Sign up successfully")));
-                      context.go('/test');
+                      context.go('/MainPage');
                     }
                     // if (provider.token[0].isEmpty) {
                     //   GoRouter.of(context).pop();

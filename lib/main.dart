@@ -6,8 +6,8 @@ import 'package:Frontend/pages/test_page.dart';
 import 'package:Frontend/pages/profile_page.dart';
 import 'package:Frontend/providers/auth_provider.dart';
 import 'package:Frontend/providers/card_provider.dart';
-
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(
@@ -16,7 +16,7 @@ void main() {
         ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
         ChangeNotifierProvider<VCardsProvider>(create: (_) => VCardsProvider()),
       ],
-      child: const MainApp(),
+      child: const MyApp(),
     ),
   );
 }
@@ -26,8 +26,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GoRouter _router = GoRouter(
-      initialLocation: '/test', // Main page
+    final GoRouter router = GoRouter(
+      initialLocation: '/SignUpPage', // Main page
       routes: [
         GoRoute(
           path: '/',
@@ -57,11 +57,16 @@ class MyApp extends StatelessWidget {
           path: '/profile',
           builder: (context, state) => const ProfilePage(),
         ),
+        GoRoute(
+          path: '/test',
+          builder: (context, state) => const TestPage(),
+        ),
       ],
     );
     return MaterialApp.router(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      routerConfig: _router,
+      routerConfig: router,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
