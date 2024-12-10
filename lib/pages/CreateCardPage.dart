@@ -1,5 +1,10 @@
+import 'package:Frontend/models/card.dart';
+import 'package:Frontend/providers/card_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'dart:math';
+
+import 'package:provider/provider.dart';
 
 class CreateCardPage extends StatefulWidget {
   @override
@@ -55,9 +60,9 @@ class _CreateCardPageState extends State<CreateCardPage> {
                   style: TextStyle(
                       color: goldColor), // Ensures the entered text is gold
                   decoration: InputDecoration(
-                    labelText: 'Name of Person',
+                    labelText: 'Card Title',
                     labelStyle: TextStyle(color: goldColor),
-                    hintText: 'Enter the name',
+                    hintText: 'Enter the title',
                     hintStyle: TextStyle(
                         color: goldColor), // Ensures the hint text is gold
                     filled: true,
@@ -68,7 +73,7 @@ class _CreateCardPageState extends State<CreateCardPage> {
                     prefixIcon: Icon(Icons.person, color: goldColor),
                   ),
                   validator: (value) {
-                    if (value!.isEmpty) return "Please enter a name";
+                    if (value!.isEmpty) return "Please enter a title";
                     return null;
                   },
                 ),
@@ -93,8 +98,9 @@ class _CreateCardPageState extends State<CreateCardPage> {
                   keyboardType: TextInputType.number,
                   validator: (value) {
                     if (value!.isEmpty) return "Please enter an amount";
-                    if (double.tryParse(value) == null)
+                    if (double.tryParse(value) == null) {
                       return "Please enter a valid number";
+                    }
                     return null;
                   },
                   onChanged: (value) {
@@ -183,22 +189,28 @@ class _CreateCardPageState extends State<CreateCardPage> {
                         borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        generateCardNumber();
-                        // Perform card creation action
-                        Navigator.pop(context, {
-                          'name': nameController.text,
-                          'amount': double.parse(amountController.text),
-                          'type': isOneTimeUse
-                              ? 'One-time use'
-                              : 'Valid for 24 hours',
-                          'withdrawalLimit':
-                              double.parse(withdrawalLimitController.text),
-                          'expiryDate': expiryDate,
-                          'cardNumber':
-                              cardNumber, // Add the generated card number
-                        });
+                        _formKey.currentState!.save();
+                        var response = await context.read<VCardsProvider>().createVCard(
+                          VCard(
+                            name: nameController.text, cardNumber: 0, expiryDate: "", cvv: 0, limit: int.tryParse(withdrawalLimitController.text))
+                        );
+                        GoRouter.of(context).pop();
+                        // generateCardNumber();
+                        // // Perform card creation action
+                        // Navigator.pop(context, {
+                        //   'name': nameController.text,
+                        //   'amount': double.parse(amountController.text),
+                        //   'type': isOneTimeUse
+                        //       ? 'One-time use'
+                        //       : 'Valid for 24 hours',
+                        //   'withdrawalLimit':
+                        //       double.parse(withdrawalLimitController.text),
+                        //   'expiryDate': expiryDate,
+                        //   'cardNumber':
+                        //       cardNumber, // Add the generated card number
+                        // });
                       }
                     },
                     child: const Text(

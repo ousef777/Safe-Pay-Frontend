@@ -8,30 +8,33 @@ class VCardsProvider extends ChangeNotifier {
 
   Future<List<VCard>> getVCards() async {
     // print("getting cards");
-    try {
-      await AuthProvider().initAuth();
-      cards = await DioClient().getVCards();
-    } on Exception catch (_) {
-      rethrow;
+    if (cards.isEmpty) {
+      try {
+        await AuthProvider().initAuth();
+        cards = await DioClient().getVCards();
+        // print(cards[0].expiryDate);
+      } on Exception catch (_) {
+        rethrow;
+      }
+      if (cards.isEmpty) throw("No Cards");
     }
-    if (cards.isEmpty) throw("No Cards");
     return cards;
   }
 
-  void createVCard(VCard card) async {
+  Future<void> createVCard(VCard card) async {
     VCard newVCard = await DioClient().createVCard(card: card);
-    cards.insert(0, newVCard);
+    cards.add(newVCard);
     notifyListeners();
   }
 
-  void updateVCard(VCard card) async {
-    VCard newVVCard = await DioClient().updateVCard(card: card);
-    int index = cards.indexWhere((card) => card.id == newVVCard.id);
-    cards[index] = newVVCard;
+  Future<void> updateVCard(VCard card) async {
+    VCard newVCard = await DioClient().updateVCard(card: card);
+    int index = cards.indexWhere((card) => card.id == newVCard.id);
+    cards[index] = newVCard;
     notifyListeners();
   }
 
-  void deleteVCard(String cardId) async {
+  Future<void> deleteVCard(String cardId) async {
     await DioClient().deleteVCard(cardId: cardId);
     cards.removeWhere((card) => card.id == cardId);
     notifyListeners();

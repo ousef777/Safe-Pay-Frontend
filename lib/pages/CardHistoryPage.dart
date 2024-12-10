@@ -1,5 +1,8 @@
+import 'package:Frontend/models/card.dart';
+import 'package:Frontend/providers/card_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 
 class HistoryPage extends StatelessWidget {
   final List<Map<String, dynamic>> cards;
@@ -28,47 +31,34 @@ class HistoryPage extends StatelessWidget {
         backgroundColor: backgroundColor,
         iconTheme: const IconThemeData(color: goldColor),
       ),
-      body: ListView.builder(
-        itemCount: cards.length,
-        itemBuilder: (context, index) {
-          final card = cards[index];
-          return Container(
-            margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
-            decoration: BoxDecoration(
-              image: const DecorationImage(
-                image: AssetImage('assets/Images/card-2.png'),
-                fit: BoxFit.cover,
-              ),
-              borderRadius: BorderRadius.circular(12.0),
-            ),
-            child: ListTile(
-              title: Text(
-                'Name: ${card['cardHolderName']}',
-                style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold),
-              ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Amount: ${card['amount']}',
-                    style: const TextStyle(color: Colors.black),
-                  ),
-                  Text(
-                    'Expiry Date: ${card['expiryDate'].toLocal()}'
-                        .split(' ')[0],
-                    style: const TextStyle(color: Colors.black),
-                  ),
-                ],
-              ),
-              onTap: () {
-                GoRouter.of(context).push('/details', extra: card);
-              },
-            ),
-          );
-        },
+      body: Expanded(
+        child: FutureBuilder(
+          future: context.read<VCardsProvider>().getVCards(),
+          builder: (context, dataSnapshot) {
+            return Consumer<VCardsProvider>(
+              builder: (context, provider, _) {
+                return ListView.builder(
+                  itemCount: provider.cards.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      // onTap: () {
+                      //   setState(() {
+                      //     _selectedCardIndex = index;
+                      //     _showCardNumber = !_showCardNumber;
+                      //   });
+                      // },
+                      onDoubleTap: () => GoRouter.of(context).push('/details', extra: provider.cards[index]),
+                      child: Opacity(
+                        opacity: 1,
+                        child: virtualCard(provider.cards[index])
+                      ),
+                    );
+                  },
+                );
+              }
+            );
+          }
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: backgroundColor,
@@ -93,4 +83,55 @@ class HistoryPage extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget virtualCard(VCard card) {
+  // print("creating card");
+  return Card(
+    elevation: 4,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+    clipBehavior: Clip.antiAlias,
+    color: Colors.transparent,
+    child: Container(
+      width: double.infinity,
+      height: 200,
+      decoration: BoxDecoration(
+        // borderRadius: BorderRadius.circular(45),
+        color: Colors.transparent,
+        image: const DecorationImage(
+          image:
+              AssetImage('assets/Images/card-2.png'),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Stack(
+        children: [
+          Positioned(
+            left: 32.0,
+            bottom: 48.0,
+            child: Text(
+              'Name: ${card.name}', // fixed for now we need to change it
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.black,
+              ),
+            ),
+          ),
+          Positioned(
+            left: 32.0,
+            bottom: 16.0,
+            child: Text(
+              card.cardNumber.toString(),
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.black,
+              ),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
 }

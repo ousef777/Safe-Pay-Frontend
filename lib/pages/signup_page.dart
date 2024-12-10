@@ -178,7 +178,7 @@ class SignUpPage extends StatelessWidget {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(error['message'])));
                       }
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Sign up successfully")));
+                      // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Sign up successfully")));
                       context.go('/MainPage');
                     }
                     // if (provider.token[0].isEmpty) {

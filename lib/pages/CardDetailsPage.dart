@@ -1,8 +1,9 @@
+import 'package:Frontend/models/card.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class CardDetailsPage extends StatelessWidget {
-  final Map<String, dynamic> card;
+  final VCard card;
 
   const CardDetailsPage({Key? key, required this.card}) : super(key: key);
 
@@ -31,16 +32,20 @@ class CardDetailsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Name: ${card['cardHolderName']}',
+            Text('Id: ${card.id}',
                 style: TextStyle(fontSize: 18, color: goldColor)),
-            Text('Amount: ${card['amount']}',
+            Text('Name: ${card.name}',
                 style: TextStyle(fontSize: 18, color: goldColor)),
-            Text('Type: ${card['type']}',
-                style: TextStyle(fontSize: 18, color: goldColor)),
-            Text('Withdrawal Limit: ${card['withdrawalLimit']}',
+            // Text('Amount: ${card['amount']}',
+            //     style: TextStyle(fontSize: 18, color: goldColor)),
+            // Text('Type: ${card['type']}',
+            //     style: TextStyle(fontSize: 18, color: goldColor)),
+            Text('Withdrawal Limit: ${card.limit}',
                 style: TextStyle(fontSize: 18, color: goldColor)),
             Text(
-                'Expiry Date: ${card['expiryDate'].toLocal().toString().split(' ')[0]}',
+                'Expiry Date: ${card.expiryDate}',
+                style: TextStyle(fontSize: 18, color: goldColor)),
+            Text('isExpired: ${card.isExpired}',
                 style: TextStyle(fontSize: 18, color: goldColor)),
           ],
         ),

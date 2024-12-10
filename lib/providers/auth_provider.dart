@@ -15,14 +15,14 @@ class AuthProvider extends ChangeNotifier {
     if (response['token'] != null) {
       _setToken(username, response['token']!);
     }
-    print(response['token'] ?? 'No token');
+    // print(response['token'] ?? 'No token');
     notifyListeners();
     return response;
   }
 
   Future<Map<String, dynamic>> signin({required String username, required String password}) async {
     var response = await AuthServices().signin(user: User(username: username, password: password));
-    balance = response['balance'];
+    balance = double.parse(response['balance'].toString());
     if (response['token'] != null) {
       _setToken(username, response['token']!);
     }
@@ -38,14 +38,14 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<void> initAuth() async {
-    print("initAuth");
+    // print("initAuth");
     await _getToken();
     if (isAuth()) {
       Client.dio.options.headers = {
         HttpHeaders.authorizationHeader: 'Bearer $token',
       };
       user = User(username: user!.username, password: token);
-      print('Bearer $token');
+      // print('Bearer $token');
       notifyListeners();
     }
   }

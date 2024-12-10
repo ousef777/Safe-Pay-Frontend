@@ -9,7 +9,7 @@ class DioClient {
 
     try {
       Response response = await Client.dio.get('/cards');
-      print((response.data as List));
+      // print((response.data as List));
       cards = (response.data as List).map((card) {
         return VCard.fromJson(card);
       }).toList();
@@ -30,7 +30,8 @@ class DioClient {
         "name": card.name,
         // "amount": card.amount,
       });
-      Response response = await Client.dio.post('/cards', data: data);
+      print(data.fields);
+      Response response = await Client.dio.post('/cards', data: {"name": card.name, "limit": card.limit});
       retrievedVCard = VCard.fromJson(response.data);
     } on DioException catch (error) {
       print(error);

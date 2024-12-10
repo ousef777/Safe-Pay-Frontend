@@ -8,6 +8,7 @@ class VCard {
   // double? amount;
   bool isExpired;
   // List? transactions;
+  int? limit;
 
   VCard(
       {
@@ -19,6 +20,7 @@ class VCard {
         // this.amount,
         this.isExpired = false,
         // this.transactions,
+        this.limit
       }
     );
 
@@ -29,6 +31,7 @@ class VCard {
         expiryDate = json['expiryDate'] as String,
         cvv = json['cvv'] as int,
         // amount = json['amount'] as double,
-        isExpired = json['isExpired'] as bool;
+        isExpired = json['isExpired'] as bool,
         // transactions = json['transactions'] as List;
+        limit = json['limit'] as int;
 }
