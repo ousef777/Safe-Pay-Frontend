@@ -1,5 +1,7 @@
 import 'package:Frontend/models/card.dart';
 import 'package:Frontend/pages/CardDetailsPage.dart';
+import 'package:Frontend/pages/CardHistoryPage.dart';
+import 'package:Frontend/pages/CreateCardPage.dart';
 import 'package:Frontend/pages/main_page.dart';
 import 'package:Frontend/pages/signin_page.dart';
 import 'package:Frontend/pages/signup_page.dart';
@@ -29,7 +31,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GoRouter router = GoRouter(
-      initialLocation: '/SignInPage', // Main page
+      initialLocation: '/SignUpPage', // Main page
       routes: [
         GoRoute(
           path: '/',
@@ -66,6 +68,14 @@ class MyApp extends StatelessWidget {
         GoRoute(
           path: '/details',
           builder: (context, state) => CardDetailsPage(card: state.extra as VCard,),
+        ),
+        GoRoute(
+          path: '/create',
+          builder: (context, state) => CreateCardPage(),
+        ),
+        GoRoute(
+          path: '/history',
+          builder: (context, state) => HistoryPage(),
         ),
       ],
     );

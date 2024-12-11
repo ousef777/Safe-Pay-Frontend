@@ -48,7 +48,7 @@ class _MainPageState extends State<MainPage>
     } else if (index == 2) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => HistoryPage(cards: cards)),
+        MaterialPageRoute(builder: (context) => HistoryPage()),
       );
     }
   }
@@ -66,11 +66,6 @@ class _MainPageState extends State<MainPage>
   void dispose() {
     _animationController.dispose();
     super.dispose();
-  }
-
-  bool _isMobile() {
-    final data = MediaQuery.of(context);
-    return data.size.shortestSide < 600;
   }
 
   @override
@@ -102,6 +97,14 @@ class _MainPageState extends State<MainPage>
             ),
             ListTile(
               leading: const Icon(Icons.logout, color: goldColor),
+              title: const Text('Transaction History', style: TextStyle(color: goldColor)),
+              onTap: () {
+                // context.read<AuthProvider>().logout();
+                // context.go('/SignInPage');
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.logout, color: goldColor),
               title: const Text('Logout', style: TextStyle(color: goldColor)),
               onTap: () {
                 context.read<AuthProvider>().logout();
@@ -111,113 +114,103 @@ class _MainPageState extends State<MainPage>
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: FutureBuilder(
-          future: context.read<AuthProvider>().initAuth(),
-          builder: (context, dataSnapshot) {
-            return Column(
-              children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Card(
-                    color: backgroundColor,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Balance',
-                              style: TextStyle(
-                                  color: goldColor,
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold)),
-                          const SizedBox(height: 8),
-                          Text('${context.watch<AuthProvider>().balance ?? '0.00'} KWD',
-                              style: TextStyle(
-                                  color: goldColor,
-                                  fontSize: 36,
-                                  fontWeight: FontWeight.bold)),
-                        ],
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await context.read<AuthProvider>().getBalance();
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: FutureBuilder(
+            future: context.read<AuthProvider>().initAuth(),
+            builder: (context, dataSnapshot) {
+              return Column(
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Card(
+                      color: backgroundColor,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Balance',
+                                style: TextStyle(
+                                    color: goldColor,
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold)),
+                            const SizedBox(height: 8),
+                            Text('${context.watch<AuthProvider>().balance ?? '0.00'} KWD',
+                                style: TextStyle(
+                                    color: goldColor,
+                                    fontSize: 36,
+                                    fontWeight: FontWeight.bold)),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 16),
-                const Text(
-                  'Recent Cards',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: goldColor,
+                  const SizedBox(height: 10),
+                  const Text(
+                    'Recent Cards',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: goldColor,
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: FutureBuilder(
-                    future: context.read<VCardsProvider>().getVCards(),
-                    builder: (context, dataSnapshot) {
-                      return Consumer<VCardsProvider>(
-                        builder: (context, provider, _) {
-                          return ListView.builder(
-                            itemCount: provider.cards.length,
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    _selectedCardIndex = index;
-                                    _showCardNumber = !_showCardNumber;
-                                  });
-                                },
-                                onDoubleTap: () => GoRouter.of(context).push('/details', extra: provider.cards[index]),
-                                child: AnimatedBuilder(
-                                  animation: _animationController,
-                                  builder: (context, child) {
-                                    return Opacity(
-                                      opacity: 1,
-                                      child: virtualCard(provider.cards[index])
-                                    );
-                                    // return Transform.scale(
-                                    //   scale: _selectedCardIndex == index ? 1.2 : 1.0,
-                                    //   child: Opacity(
-                                    //     opacity: _animationController.value,
-                                    //     child: virtualCard(provider.cards[index])
-                                    //   ),
-                                    // );
+                  Expanded(
+                    child: FutureBuilder(
+                      future: context.read<VCardsProvider>().getVCards(),
+                      builder: (context, dataSnapshot) {
+                        return Consumer<VCardsProvider>(
+                          builder: (context, provider, _) {
+                            return ListView.builder(
+                              itemCount: provider.activeCards.length,
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      _selectedCardIndex = index;
+                                      _showCardNumber = !_showCardNumber;
+                                    });
                                   },
-                                ),
-                              );
-                            },
-                          );
-                        }
-                      );
-                    }
+                                  onDoubleTap: () => GoRouter.of(context).push('/details', extra: provider.activeCards[index]),
+                                  child: AnimatedBuilder(
+                                    animation: _animationController,
+                                    builder: (context, child) {
+                                      return Transform.scale(
+                                        scale: _selectedCardIndex == index ? 1.1 : 1.0,
+                                        child: Opacity(
+                                          opacity: 1,
+                                          child: virtualCard(provider.activeCards[index], index)
+                                        ),
+                                      );
+                                      // return Transform.scale(
+                                      //   scale: _selectedCardIndex == index ? 1.2 : 1.0,
+                                      //   child: Opacity(
+                                      //     opacity: _animationController.value,
+                                      //     child: virtualCard(provider.cards[index])
+                                      //   ),
+                                      // );
+                                    },
+                                  ),
+                                );
+                              },
+                            );
+                          }
+                        );
+                      }
+                    ),
                   ),
-                ),
-              ],
-            );
-          }
+                ],
+              );
+            }
+          ),
         ),
       ),
-      // floatingActionButton: _isMobile()
-      //     ? FloatingActionButton(
-      //         backgroundColor: goldColor,
-      //         onPressed: () async {
-      //           final newCard = await Navigator.push(
-      //             context,
-      //             MaterialPageRoute(builder: (context) => CreateCardPage()),
-      //           );
-      //           if (newCard != null) {
-      //             setState(() {
-      //               cards.add(newCard);
-      //               _animationController.forward(from: 0);
-      //             });
-      //           }
-      //         },
-      //         child: Icon(Icons.add, color: Colors.black),
-      //       )
-      //     : null,
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: backgroundColor,
         selectedItemColor: goldColor,
@@ -241,54 +234,55 @@ class _MainPageState extends State<MainPage>
       ),
     );
   }
-}
 
-Widget virtualCard(VCard card) {
-  // print("creating card");
-  return Card(
-    elevation: 4,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10),
-    ),
-    clipBehavior: Clip.antiAlias,
-    color: Colors.transparent,
-    child: Container(
-      width: double.infinity,
-      height: 200,
-      decoration: BoxDecoration(
-        color: Colors.transparent,
-        image: const DecorationImage(
-          image:
-              AssetImage('assets/Images/card-2.png'),
-          fit: BoxFit.cover,
+    Widget virtualCard(VCard card, int index) {
+    // print("creating card");
+    return Card(
+      elevation: 4,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+      ),
+      clipBehavior: Clip.antiAlias,
+      color: Colors.transparent,
+      child: Container(
+        width: double.infinity,
+        height: 200,
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          image: const DecorationImage(
+            image:
+                AssetImage('assets/Images/card-2.png'),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Stack(
+          children: [
+            Positioned(
+              left: 32.0,
+              bottom: 48.0,
+              child: Text(
+                'Name: ${card.name}', // fixed for now we need to change it
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            Positioned(
+              left: 32.0,
+              bottom: 16.0,
+              child: Text(
+                _selectedCardIndex == index ? card.cardNumber.toString() : "Tap to show number",
+                style: TextStyle(
+                  fontSize: 18,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
-      child: Stack(
-        children: [
-          Positioned(
-            left: 32.0,
-            bottom: 48.0,
-            child: Text(
-              'Name: ${card.name}', // fixed for now we need to change it
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.black,
-              ),
-            ),
-          ),
-          Positioned(
-            left: 32.0,
-            bottom: 16.0,
-            child: Text(
-              card.cardNumber.toString(),
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.black,
-              ),
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
+    );
+  }
+
 }

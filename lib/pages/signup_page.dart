@@ -214,12 +214,6 @@ class SignUpPage extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-
-        },
-        child: const Text("Create Card", textAlign: TextAlign.center,),
-      ),
     );
   }
 }

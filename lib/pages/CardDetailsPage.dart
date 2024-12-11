@@ -22,7 +22,7 @@ class CardDetailsPage extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.home, color: goldColor),
             onPressed: () {
-              context.push('/MainPage');
+              GoRouter.of(context).go('/MainPage');
             },
           ),
         ],
@@ -32,21 +32,17 @@ class CardDetailsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Id: ${card.id}',
-                style: TextStyle(fontSize: 18, color: goldColor)),
+            // Text('Id: ${card.id}',
+            //     style: TextStyle(fontSize: 18, color: goldColor)),
             Text('Name: ${card.name}',
                 style: TextStyle(fontSize: 18, color: goldColor)),
-            // Text('Amount: ${card['amount']}',
-            //     style: TextStyle(fontSize: 18, color: goldColor)),
-            // Text('Type: ${card['type']}',
-            //     style: TextStyle(fontSize: 18, color: goldColor)),
             Text('Withdrawal Limit: ${card.limit}',
                 style: TextStyle(fontSize: 18, color: goldColor)),
             Text(
                 'Expiry Date: ${card.expiryDate}',
                 style: TextStyle(fontSize: 18, color: goldColor)),
-            Text('isExpired: ${card.isExpired}',
-                style: TextStyle(fontSize: 18, color: goldColor)),
+            // Text('isExpired: ${card.isExpired}',
+            //     style: TextStyle(fontSize: 18, color: goldColor)),
           ],
         ),
       ),

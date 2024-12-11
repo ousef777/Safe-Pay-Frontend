@@ -5,19 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class HistoryPage extends StatelessWidget {
-  final List<Map<String, dynamic>> cards;
 
-  const HistoryPage({Key? key, required this.cards}) : super(key: key);
-
-  void _onItemTapped(BuildContext context, int index) {
-    if (index == 0) {
-      context.go('/MainPage', extra: {'cards': cards});
-    } else if (index == 1) {
-      context.go('/create-card', extra: {'cards': cards});
-    } else if (index == 2) {
-      context.go('/card-history', extra: {'cards': cards});
-    }
-  }
+  const HistoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,17 +30,8 @@ class HistoryPage extends StatelessWidget {
                   itemCount: provider.cards.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      // onTap: () {
-                      //   setState(() {
-                      //     _selectedCardIndex = index;
-                      //     _showCardNumber = !_showCardNumber;
-                      //   });
-                      // },
-                      onDoubleTap: () => GoRouter.of(context).push('/details', extra: provider.cards[index]),
-                      child: Opacity(
-                        opacity: 1,
-                        child: virtualCard(provider.cards[index])
-                      ),
+                      onTap: () => GoRouter.of(context).push('/details', extra: provider.cards[index]),
+                      child: virtualCard(provider.cards[index]),
                     );
                   },
                 );
@@ -65,7 +45,15 @@ class HistoryPage extends StatelessWidget {
         selectedItemColor: goldColor,
         unselectedItemColor: goldColor,
         currentIndex: 2, // Set the current index to 'History'
-        onTap: (index) => _onItemTapped(context, index),
+        onTap: (index) {
+          if (index == 0) {
+            context.pop();
+          } else if (index == 1) {
+            context.push('/create');
+          } else if (index == 2) {
+            // context.push('/history');
+          }
+        },
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(Icons.home, color: goldColor),
@@ -90,7 +78,7 @@ Widget virtualCard(VCard card) {
   return Card(
     elevation: 4,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(20),
     ),
     clipBehavior: Clip.antiAlias,
     color: Colors.transparent,

@@ -78,36 +78,32 @@ class _CreateCardPageState extends State<CreateCardPage> {
                   },
                 ),
                 const SizedBox(height: 20),
-                TextFormField(
-                  controller: amountController,
-                  style: TextStyle(
-                      color: goldColor), // Ensures the entered text is gold
-                  decoration: InputDecoration(
-                    labelText: 'Amount of Charge',
-                    labelStyle: TextStyle(color: goldColor),
-                    hintText: 'Enter the amount',
-                    hintStyle: TextStyle(
-                        color: goldColor), // Ensures the hint text is gold
-                    filled: true,
-                    fillColor: Colors.white.withOpacity(0.1),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    prefixIcon: Icon(Icons.attach_money, color: goldColor),
-                  ),
-                  keyboardType: TextInputType.number,
-                  validator: (value) {
-                    if (value!.isEmpty) return "Please enter an amount";
-                    if (double.tryParse(value) == null) {
-                      return "Please enter a valid number";
-                    }
-                    return null;
-                  },
-                  onChanged: (value) {
-                    // Set the withdrawal limit to match the amount entered
-                    withdrawalLimitController.text = value;
-                  },
-                ),
+                // TextFormField(
+                //   controller: amountController,
+                //   style: TextStyle(
+                //       color: goldColor), // Ensures the entered text is gold
+                //   decoration: InputDecoration(
+                //     labelText: 'Amount of Charge',
+                //     labelStyle: TextStyle(color: goldColor),
+                //     hintText: 'Enter the amount',
+                //     hintStyle: TextStyle(
+                //         color: goldColor), // Ensures the hint text is gold
+                //     filled: true,
+                //     fillColor: Colors.white.withOpacity(0.1),
+                //     border: OutlineInputBorder(
+                //       borderRadius: BorderRadius.circular(12.0),
+                //     ),
+                //     prefixIcon: Icon(Icons.attach_money, color: goldColor),
+                //   ),
+                //   keyboardType: TextInputType.number,
+                //   validator: (value) {
+                //     if (value!.isEmpty) return "Please enter an amount";
+                //     if (double.tryParse(value) == null) {
+                //       return "Please enter a valid number";
+                //     }
+                //     return null;
+                //   },
+                // ),
                 const SizedBox(height: 20),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -163,7 +159,6 @@ class _CreateCardPageState extends State<CreateCardPage> {
                   controller: withdrawalLimitController,
                   style: TextStyle(
                       color: goldColor), // Ensures the entered text is gold
-                  readOnly: true, // Make the field read-only
                   decoration: InputDecoration(
                     labelText: 'Withdrawal Limit',
                     labelStyle: TextStyle(color: goldColor),

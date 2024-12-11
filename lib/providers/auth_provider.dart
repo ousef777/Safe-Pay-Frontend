@@ -31,6 +31,12 @@ class AuthProvider extends ChangeNotifier {
     return response;
   }
 
+  Future getBalance() async {
+    var response = await AuthServices().getBalance();
+    balance = double.parse(response['balance'].toString());
+    notifyListeners();
+  }
+
   bool isAuth() {
     // print(user ?? 'No User');
     // print(token ?? 'No token');

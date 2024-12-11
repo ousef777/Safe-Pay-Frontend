@@ -26,4 +26,17 @@ class AuthServices {
       return {'errors': error.response!.data["errors"]};
     }
   }
+
+  Future getBalance() async {
+    try {
+      // print(user.toJson());
+      Response response =
+          await Client.dio.get('/balance');
+      return {'balance': response.data["balance"]};
+      // print(token);
+    } on DioException catch (error) {
+      print(error.response!.data);
+      return {'errors': error.response!.data["errors"]};
+    }
+  }
 }
