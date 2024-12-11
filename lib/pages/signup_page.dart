@@ -16,8 +16,19 @@ class SignUpPage extends StatelessWidget {
   String username = "";
   String password = "";
 
+  void check(BuildContext context) async {
+    await context.read<AuthProvider>().initAuth();
+    print(context.read<AuthProvider>().user?.username ?? "No Username");
+
+    if (context.read<AuthProvider>().isAuth()) {
+      await context.read<AuthProvider>().getBalance();
+      context.go('/MainPage');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    check(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
