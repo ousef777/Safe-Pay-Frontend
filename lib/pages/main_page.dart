@@ -259,9 +259,9 @@ class _MainPageState extends State<MainPage>
           children: [
             Positioned(
               left: 32.0,
-              bottom: 48.0,
+              top: 10.0,
               child: Text(
-                'Name: ${card.name}', // fixed for now we need to change it
+                _selectedCardIndex == index ? 'limit: ${card.limit} KWD' : "", // fixed for now we need to change it
                 style: TextStyle(
                   fontSize: 20,
                   color: Colors.black,
@@ -272,7 +272,7 @@ class _MainPageState extends State<MainPage>
               left: 32.0,
               bottom: 16.0,
               child: Text(
-                _selectedCardIndex == index ? card.cardNumber.toString() : "Tap to show number",
+                _selectedCardIndex == index ? "Name: ${card.name} \n${card.cardNumber} \nCVV: ${card.cvv} \nExp: ${card.expiryDate}" : "Name: ${card.name}\nTap to show number",
                 style: TextStyle(
                   fontSize: 18,
                   color: Colors.black,

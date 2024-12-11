@@ -18,7 +18,7 @@ class SignUpPage extends StatelessWidget {
 
   void check(BuildContext context) async {
     await context.read<AuthProvider>().initAuth();
-    print(context.read<AuthProvider>().user?.username ?? "No Username");
+    // print(context.read<AuthProvider>().user?.username ?? "No Username");
 
     if (context.read<AuthProvider>().isAuth()) {
       await context.read<AuthProvider>().getBalance();
@@ -190,6 +190,7 @@ class SignUpPage extends StatelessWidget {
                       }
                     } else {
                       // ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Sign up successfully")));
+                      await context.read<AuthProvider>().getBalance();
                       context.go('/MainPage');
                     }
                     // if (provider.token[0].isEmpty) {

@@ -8,14 +8,14 @@ class VCardsProvider extends ChangeNotifier {
   List<VCard> activeCards = [];
 
   Future<List<VCard>> getVCards() async {
-    print("getting cards");
+    // print("getting cards");
     // print(cards[0].isExpired);
     if (cards.isEmpty || true) {
       try {
         await AuthProvider().initAuth();
         cards = await DioClient().getVCards();
         activeCards = cards.where((card) => !card.isExpired).toList();
-        print(cards);
+        // print(cards);
         // print(cards[0].expiryDate);
       } on Exception catch (_) {
         rethrow;

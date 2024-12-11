@@ -31,7 +31,10 @@ class HistoryPage extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () => GoRouter.of(context).push('/details', extra: provider.cards[index]),
-                      child: virtualCard(provider.cards[index]),
+                      child: Opacity(
+                        opacity: provider.cards[index].isExpired ? 0.5 : 1,
+                        child: virtualCard(provider.cards[index])
+                      ),
                     );
                   },
                 );
@@ -96,22 +99,22 @@ Widget virtualCard(VCard card) {
       ),
       child: Stack(
         children: [
-          Positioned(
-            left: 32.0,
-            bottom: 48.0,
-            child: Text(
-              'Name: ${card.name}', // fixed for now we need to change it
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.black,
-              ),
-            ),
-          ),
+          // Positioned(
+          //   left: 32.0,
+          //   bottom: 48.0,
+          //   child: Text(
+          //     'Name: ${card.name}', // fixed for now we need to change it
+          //     style: TextStyle(
+          //       fontSize: 20,
+          //       color: Colors.black,
+          //     ),
+          //   ),
+          // ),
           Positioned(
             left: 32.0,
             bottom: 16.0,
             child: Text(
-              card.cardNumber.toString(),
+              "Name: ${card.name} \n${card.cardNumber} \nCVV: ${card.cvv} \nExp: ${card.expiryDate}",
               style: TextStyle(
                 fontSize: 18,
                 color: Colors.black,
