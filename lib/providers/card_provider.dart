@@ -15,6 +15,7 @@ class VCardsProvider extends ChangeNotifier {
         await AuthProvider().initAuth();
         cards = await DioClient().getVCards();
         activeCards = cards.where((card) => !card.isExpired).toList();
+        cards.sort((a,b) => a.isExpired ? 1 : 0);
         // print(cards);
         // print(cards[0].expiryDate);
       } on Exception catch (_) {

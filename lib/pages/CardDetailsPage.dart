@@ -1,5 +1,6 @@
 import 'package:Frontend/models/card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 class CardDetailsPage extends StatelessWidget {
@@ -11,6 +12,7 @@ class CardDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     const Color goldColor = Color(0xFFE9C575);
     const Color backgroundColor = Colors.black;
+    TextStyle textStyle = TextStyle(fontSize: 25, color: goldColor);
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -35,14 +37,32 @@ class CardDetailsPage extends StatelessWidget {
             // Text('Id: ${card.id}',
             //     style: TextStyle(fontSize: 18, color: goldColor)),
             Text('Name: ${card.name}',
-                style: TextStyle(fontSize: 18, color: goldColor)),
-            Text('Withdrawal Limit: ${card.limit}',
-                style: TextStyle(fontSize: 18, color: goldColor)),
+                style: textStyle),
+                Text('Card Number: ${card.cardNumber}',
+                style: textStyle),
+            Text('Limit: ${card.limit} KWD',
+                style: textStyle),
             Text(
                 'Expiry Date: ${card.expiryDate}',
-                style: TextStyle(fontSize: 18, color: goldColor)),
+                style: textStyle),
             // Text('isExpired: ${card.isExpired}',
             //     style: TextStyle(fontSize: 18, color: goldColor)),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      Clipboard.setData(ClipboardData(text: card.cardNumber.toString()));
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll(goldColor)), 
+                    child: const Text("Copy Card Number", style: TextStyle(color: Colors.black),)
+                  ),
+                ],
+              ),
+            )
           ],
         ),
       ),

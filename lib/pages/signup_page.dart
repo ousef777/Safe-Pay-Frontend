@@ -21,8 +21,15 @@ class SignUpPage extends StatelessWidget {
     // print(context.read<AuthProvider>().user?.username ?? "No Username");
 
     if (context.read<AuthProvider>().isAuth()) {
-      await context.read<AuthProvider>().getBalance();
-      context.go('/MainPage');
+      try {
+        await context.read<AuthProvider>().getBalance();
+        context.go('/MainPage');
+      } on Exception catch (e) {
+        // TODO
+        print("Old Token");
+        context.read<AuthProvider>().logout();
+      }
+      
     }
   }
 

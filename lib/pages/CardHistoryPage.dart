@@ -1,6 +1,7 @@
 import 'package:Frontend/models/card.dart';
 import 'package:Frontend/providers/card_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_credit_card/flutter_credit_card.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -29,11 +30,28 @@ class HistoryPage extends StatelessWidget {
                 return ListView.builder(
                   itemCount: provider.cards.length,
                   itemBuilder: (context, index) {
+                    VCard card = provider.cards[index];
                     return GestureDetector(
                       onTap: () => GoRouter.of(context).push('/details', extra: provider.cards[index]),
                       child: Opacity(
                         opacity: provider.cards[index].isExpired ? 0.5 : 1,
-                        child: virtualCard(provider.cards[index])
+                        child: CreditCardWidget(
+                          cardNumber: card.cardNumber.toString(), 
+                          expiryDate: card.expiryDate, 
+                          cardHolderName: card.name, 
+                          cvvCode: card.cvv.toString(), 
+                          showBackView: false,
+                          obscureCardCvv: false,
+                          obscureCardNumber: false,
+                          isHolderNameVisible: true,
+                          cardBgColor: goldColor,
+                          // enableFloatingCard: true,
+                          // backgroundImage: 'assets/Images/card-2.png', 
+                          onCreditCardWidgetChange: (CreditCardBrand ) {
+
+                          },   //virtualCard(provider.activeCards[index], index)
+
+                        )
                       ),
                     );
                   },

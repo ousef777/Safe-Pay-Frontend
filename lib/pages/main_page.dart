@@ -5,10 +5,13 @@ import 'package:Frontend/pages/CreateCardPage.dart';
 import 'package:Frontend/providers/auth_provider.dart';
 import 'package:Frontend/providers/card_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 // import 'package:my_new_app/CreateCardPage.dart';
 // import 'create_card_page.dart'; // Import the CreateCardPage
+import 'package:flutter_credit_card/flutter_credit_card.dart';
+// import 'package:u_credit_card/u_credit_card.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -24,13 +27,14 @@ class _MainPageState extends State<MainPage>
   late AnimationController _animationController;
   int? _selectedCardIndex;
   int _selectedIndex = 0; // To keep track of the selected navigation item
+  final _formKey = GlobalKey<FormState>();
 
     void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
     if (index == 0) {
-      Scaffold.of(context).openDrawer();
+      // Scaffold.of(context).openDrawer();
     } else if (index == 1) {
       Navigator.push(
         context,
@@ -95,14 +99,14 @@ class _MainPageState extends State<MainPage>
               child: const Text('Menu',
                   style: TextStyle(color: goldColor, fontSize: 24)),
             ),
-            ListTile(
-              leading: const Icon(Icons.logout, color: goldColor),
-              title: const Text('Transaction History', style: TextStyle(color: goldColor)),
-              onTap: () {
-                // context.read<AuthProvider>().logout();
-                // context.go('/SignInPage');
-              },
-            ),
+            // ListTile(
+            //   leading: const Icon(Icons.logout, color: goldColor),
+            //   title: const Text('Transaction History', style: TextStyle(color: goldColor)),
+            //   onTap: () {
+            //     // context.read<AuthProvider>().logout();
+            //     // context.go('/SignInPage');
+            //   },
+            // ),
             ListTile(
               leading: const Icon(Icons.logout, color: goldColor),
               title: const Text('Logout', style: TextStyle(color: goldColor)),
@@ -154,7 +158,7 @@ class _MainPageState extends State<MainPage>
                   ),
                   const SizedBox(height: 10),
                   const Text(
-                    'Recent Cards',
+                    'Active Cards',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -171,21 +175,49 @@ class _MainPageState extends State<MainPage>
                               itemCount: provider.activeCards.length,
                               itemBuilder: (context, index) {
                                 return GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _selectedCardIndex = index;
-                                      _showCardNumber = !_showCardNumber;
-                                    });
+                                  // onDoubleTap: () => GoRouter.of(context).push('/details', extra: provider.activeCards[index]),
+                                  onLongPress: () {
+                                    // print("Copying");
+                                    Clipboard.setData(ClipboardData(text: provider.activeCards[index].cardNumber.toString()));
+                                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Card Number copied")));
                                   },
-                                  onDoubleTap: () => GoRouter.of(context).push('/details', extra: provider.activeCards[index]),
                                   child: AnimatedBuilder(
                                     animation: _animationController,
                                     builder: (context, child) {
                                       return Transform.scale(
-                                        scale: _selectedCardIndex == index ? 1.1 : 1.0,
+                                        scale: 1.1,
                                         child: Opacity(
                                           opacity: 1,
-                                          child: virtualCard(provider.activeCards[index], index)
+                                          child: 
+                                          CreditCardWidget(
+                                            bankName: "limit: ${provider.activeCards[index].limit} KWD",
+                                            cardNumber: provider.activeCards[index].cardNumber.toString(), 
+                                            expiryDate: provider.activeCards[index].expiryDate, 
+                                            cardHolderName: provider.activeCards[index].name, 
+                                            cvvCode: provider.activeCards[index].cvv.toString(), 
+                                            showBackView: false,
+                                            obscureCardCvv: false,
+                                            obscureCardNumber: false,
+                                            isHolderNameVisible: true,
+                                            cardBgColor: goldColor,
+                                            // cardType: CardType.visa,
+                                            isChipVisible: false,
+                                            // enableFloatingCard: true,
+                                            // backgroundImage: 'assets/Images/card-2.png', 
+                                            onCreditCardWidgetChange: (CreditCardBrand ) {
+                                        
+                                            },   //virtualCard(provider.activeCards[index], index)
+                                        
+                                          )
+                                          // CreditCardUi(
+                                          //   width: 300,
+                                          //   cardHolderFullName: provider.activeCards[index].name, 
+                                          //   cardNumber: provider.activeCards[index].cardNumber.toString(), 
+                                          //   validThru: provider.activeCards[index].expiryDate,
+                                          //   // scale: 12,
+                                          //   enableFlipping: true,
+                                          // )
+                                        
                                         ),
                                       );
                                       // return Transform.scale(
@@ -223,8 +255,9 @@ class _MainPageState extends State<MainPage>
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.add, color: goldColor),
+            icon: Icon(Icons.add, color: goldColor, size: 50,),
             label: 'Add',
+            
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.history, color: goldColor),

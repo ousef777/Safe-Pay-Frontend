@@ -21,6 +21,8 @@ class AuthProvider extends ChangeNotifier {
   }
 
   Future<Map<String, dynamic>> signin({required String username, required String password}) async {
+    // print(username);
+    // print(password);
     var response = await AuthServices().signin(user: User(username: username, password: password));
     balance = double.parse(response['balance'].toString());
     if (response['token'] != null) {
